@@ -1,0 +1,5 @@
+2024-01-15 08:23:11 INFO  UserService    Login successful for user=alice latency=142ms
+2024-01-15 08:23:45 ERROR DatabaseService Connection timeout for db=prod latency=3200ms
+2024-01-15 08:24:02 WARNING ApiGateway   Rate limit exceeded for user=bob latency=89ms
+2024-01-15 08:24:18 INFO  UserService    Login successful for user=carol latency=98ms
+2024-01-15 08:25:01 ERROR UserService    Invalid token for user=dave latency=12ms
