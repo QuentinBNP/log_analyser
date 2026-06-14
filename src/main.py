@@ -1,4 +1,4 @@
-from parser import Parser
+from .parser import Parser
 
 def main():
     main_parser = Parser()
