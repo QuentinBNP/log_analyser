@@ -23,10 +23,10 @@ pipeline {
 
     post {
         success {
-            echo 'Tous les tests sont passés ✅'
+            echo 'Tous les tests sont passes'
         }
         failure {
-            echo 'Des tests ont échoué ❌'
+            echo 'Des tests ont echoue'
         }
     }
 }
