@@ -1,0 +1,17 @@
+# Install docker-compose if needed
+sudo apt install docker-compose
+
+# Start Jenkins in background
+docker-compose up -d
+
+# Check it's running
+docker-compose ps
+
+# Follow logs (useful first launch to see Jenkins boot)
+docker-compose logs -f
+
+# Stop without deleting data
+docker-compose down
+
+# Stop AND delete all data (jenkins jobs, config, plugins)
+docker-compose down -v

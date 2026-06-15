@@ -1,0 +1,51 @@
+# ============================================================
+# Docker Compose — Jenkins CI
+# Usage : docker compose up -d
+#         docker compose down        (stop + remove container)
+#         docker compose logs -f     (follow logs)
+# ============================================================
+
+services:
+  jenkins:
+    # L'image officielle Jenkins LTS (Long Term Support = version stable)
+    image: jenkins/jenkins:lts
+
+    # Nom du container — permet de faire : docker stop jenkins
+    container_name: jenkins
+
+    # Redémarre automatiquement si le container crash ou si WSL redémarre
+    restart: unless-stopped
+
+    networks:
+      - jenkins-net
+
+    ports:
+      # Format : "port_hote:port_container"
+      # ton navigateur sur localhost:8080 → redirigé vers le port 8080 du container
+      - "8080:8080"
+      # Port utilisé pour les agents Jenkins distants (pas nécessaire pour l'instant)
+      - "50000:50000"
+
+    volumes:
+      # Volume nommé : les données Jenkins (jobs, config, plugins) survivent
+      # aux redémarrages du container
+      - jenkins_home:/var/jenkins_home
+
+      # Socket Unix du daemon Docker de ton WSL — monté dans le container
+      # C'est ce qui permet à Jenkins de lancer des "docker build / docker run"
+      # depuis l'intérieur du container (pattern Docker-outside-of-Docker)
+      - /var/run/docker.sock:/var/run/docker.sock
+
+      # Binaire Docker du WSL — monté dans le container
+      - /usr/bin/docker:/usr/bin/docker
+
+# Réseau virtuel isolé — permet à Jenkins de parler à d'autres
+# containers (agents, DB...) par leur nom plutôt que par IP
+networks:
+  jenkins-net:
+    driver: bridge
+
+# Volume nommé géré par Docker — persiste même si tu fais "docker compose down"
+# Pour tout supprimer (y compris les données) : docker compose down -v
+volumes:
+  jenkins_home:
