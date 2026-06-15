@@ -2,10 +2,31 @@ pipeline {
     agent any
 
     stages {
-        stage('Nom du stage') {
+        stage('Checkout') {
             steps {
-                // ce qu'on fait ici
+                checkout scm
             }
+        }
+
+        stage('Build') {
+            steps {
+                sh 'docker build -t log-analyzer .'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                sh 'docker run --rm log-analyzer'
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Tous les tests sont passes'
+        }
+        failure {
+            echo 'Des tests ont echoue'
         }
     }
 }
