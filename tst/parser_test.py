@@ -89,8 +89,8 @@ def test_parse_file_entries_populated(parser, sample_log_file):
     assert entries[1]["level"]   == "ERROR"
 
 def test_parse_file_twice(parser, sample_log_file):
-    """Appeler parse_file deux fois doit écraser les entrées."""
+    """Appeler parse_file deux fois doit cumuler les entrées."""
     parser.parse_file(str(sample_log_file))
     parser.parse_file(str(sample_log_file))
 
-    assert len(parser.get_entries()) == 2  # 2 lignes × 1 fichier
+    assert len(parser.get_entries()) == 4  # 2 lignes × 2 appels

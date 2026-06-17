@@ -32,17 +32,14 @@ class Parser:
 
     def parse_file(self, filepath: str) -> int:
         """Lit un fichier de logs, retourne le nombre d'entrées parsées."""
-        
-        entries = []
-        
+        n = len(self.entries)
         with open(filepath, "r") as f:
             for line in f:
                 entry = self.parse_line(line)
                 if entry is not None:        # on ignore les lignes invalides
-                    entries.append(entry)
+                    self.entries.append(entry)
         
-        self.entries = entries
-        return len(entries)
+        return len(self.entries) - n  # nombre de nouvelles entrées parsées
     
     def get_entries(self) -> list[dict]:
         """Retourne la liste des entrées parsées."""
